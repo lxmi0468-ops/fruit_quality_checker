@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - 404 Error{% endblock %}
+
+{% block content %}
+<div style="padding-top: 120px; min-height: 100vh; display: flex; align-items: center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="fade-in-up">
+                    <!-- 404 Illustration -->
+                    <div class="mb-5">
+                        <div style="font-size: 8rem; color: var(--primary-color); font-weight: 800; line-height: 1;">
+                            404
+                        </div>
+                        <div style="font-size: 1.5rem; color: var(--text-secondary); margin-top: -1rem;">
+                            <i class="fas fa-search me-2"></i>
+                            Oops! Page not found
+                        </div>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div class="info-card mb-4">
+                        <h3 class="mb-3">
+                            <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                            Sorry, we can't find that page
+                        </h3>
+                        <p class="text-secondary mb-4">
+                            The page you're looking for might have been moved, deleted, or you might have typed the wrong URL.
+                        </p>
+                        
+                        <!-- Quick Navigation */
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <a href="/" class="btn-primary-custom w-100">
+                                    <i class="fas fa-home me-2"></i>
+                                    Go to Homepage
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="/predict" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-brain me-2"></i>
+                                    Try Prediction
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Search Suggestions -->
+                        <div class="text-start">
+                            <h5 class="mb-3">
+                                <i class="fas fa-lightbulb me-2 text-warning"></i>
+                                Quick Links:
+                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <a href="/" class="text-decoration-none">
+                                                <i class="fas fa-home me-2 text-primary"></i>
+                                                Homepage
+                                            </a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="/predict" class="text-decoration-none">
+                                                <i class="fas fa-brain me-2 text-primary"></i>
+                                                AI Prediction
+                                            </a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="/about" class="text-decoration-none">
+                                                <i class="fas fa-info-circle me-2 text-primary"></i>
+                                                About Project
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <a href="/contact" class="text-decoration-none">
+                                                <i class="fas fa-envelope me-2 text-primary"></i>
+                                                Contact Us
+                                            </a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="javascript:history.back()" class="text-decoration-none">
+                                                <i class="fas fa-arrow-left me-2 text-primary"></i>
+                                                Go Back
+                                            </a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a href="javascript:location.reload()" class="text-decoration-none">
+                                                <i class="fas fa-redo me-2 text-primary"></i>
+                                                Refresh Page
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fun Fruit Facts -->
+                    <div class="info-card" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.05) 0%, rgba(59, 130, 246, 0.03) 100%);">
+                        <h4 class="mb-3">
+                            <i class="fas fa-apple-alt me-2" style="color: #dc3545;"></i>
+                            Did you know?
+                        </h4>
+                        <p class="text-secondary mb-0">
+                            While you're here, our AI model can detect fruit freshness with 98.26% accuracy! 
+                            Try uploading a fruit image to see the magic of machine learning in action.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Custom 404 page animations */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out, bounce 2s ease-in-out 1s infinite;
+}
+
+/* Hover effects for links */
+.info-card a:hover {
+    transform: translateX(5px);
+    transition: transform 0.2s ease;
+}
+</style>
+{% endblock %}

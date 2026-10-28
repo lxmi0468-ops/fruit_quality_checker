@@ -1,0 +1,539 @@
+{% extends "base.html" %}
+
+{% block title %}FruitAI | Quality Detection{% endblock %}
+
+{% block content %}
+<style>
+    /* Main page */
+    .fruitai-home {
+        --green: #16845b;
+        --dark: #164532;
+        --light: #eff9f2;
+        --muted: #65756c;
+        --border: #e0ece4;
+        color: var(--dark);
+        overflow-wrap: anywhere;
+    }
+
+    .fruitai-home * {
+        box-sizing: border-box;
+    }
+
+    .fruitai-home .hero {
+        padding: clamp(35px, 6vw, 80px) 0;
+        background: linear-gradient(135deg, #f0faf3, #ffffff);
+    }
+
+    .fruitai-home .hero-card {
+        padding: clamp(22px, 5vw, 55px);
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: 0 12px 35px rgba(22, 69, 50, .07);
+    }
+
+    .fruitai-home .tag {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 30px;
+        background: var(--light);
+        color: var(--green);
+        font-size: .85rem;
+        font-weight: 700;
+    }
+
+    .fruitai-home h1 {
+        margin: 20px 0 16px;
+        font-size: clamp(2rem, 5vw, 3.7rem);
+        line-height: 1.15;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+    }
+
+    .fruitai-home h1 span {
+        color: var(--green);
+    }
+
+    .fruitai-home .description {
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.8;
+        max-width: 620px;
+    }
+
+    .fruitai-home .primary-btn,
+    .fruitai-home .secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        max-width: 100%;
+        min-height: 48px;
+        padding: 12px 20px;
+        border-radius: 11px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background .2s ease, color .2s ease;
+    }
+
+    .fruitai-home .primary-btn {
+        background: var(--green);
+        border: 1px solid var(--green);
+        color: #fff;
+    }
+
+    .fruitai-home .primary-btn:hover {
+        background: #106746;
+        color: #fff;
+    }
+
+    .fruitai-home .secondary-btn {
+        background: white;
+        border: 1px solid var(--border);
+        color: var(--dark);
+    }
+
+    .fruitai-home .secondary-btn:hover {
+        background: var(--light);
+    }
+
+    .fruitai-home .hero-info {
+        height: 100%;
+        min-height: 230px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(20px, 4vw, 35px);
+        background: var(--light);
+        border: 1px solid #dcefe2;
+        border-radius: 20px;
+    }
+
+    .fruitai-home .hero-info h2 {
+        font-size: clamp(1.35rem, 3vw, 1.8rem);
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .fruitai-home .hero-info p {
+        color: var(--muted);
+        line-height: 1.7;
+    }
+
+    .fruitai-home .status-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+    .fruitai-home .status {
+        padding: 7px 12px;
+        border-radius: 8px;
+        font-size: .85rem;
+        font-weight: 700;
+    }
+
+    .fruitai-home .status-fresh {
+        background: #d9f5e4;
+        color: #146c43;
+    }
+
+    .fruitai-home .status-ripe {
+        background: #fff0c7;
+        color: #805b00;
+    }
+
+    .fruitai-home .status-rotten {
+        background: #ffe1df;
+        color: #a32626;
+    }
+
+    /* Sections */
+    .fruitai-home .section-space {
+        padding: clamp(40px, 6vw, 70px) 0;
+    }
+
+    .fruitai-home .section-title {
+        margin-bottom: 12px;
+        text-align: center;
+        font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+        font-weight: 800;
+        letter-spacing: -.5px;
+    }
+
+    .fruitai-home .section-description {
+        max-width: 650px;
+        margin: 0 auto 35px;
+        color: var(--muted);
+        line-height: 1.7;
+        text-align: center;
+    }
+
+    .fruitai-home .info-card {
+        height: 100%;
+        padding: 25px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 17px;
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .fruitai-home .info-card:hover {
+        border-color: #abd9bc;
+        box-shadow: 0 8px 24px rgba(22, 69, 50, .07);
+    }
+
+    .fruitai-home .card-number {
+        display: inline-flex;
+        width: 43px;
+        height: 43px;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+        border-radius: 12px;
+        background: var(--light);
+        color: var(--green);
+        font-size: 1rem;
+        font-weight: 800;
+    }
+
+    .fruitai-home .info-card h3 {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        font-weight: 800;
+    }
+
+    .fruitai-home .info-card p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: .95rem;
+        line-height: 1.75;
+    }
+
+    .fruitai-home .categories {
+        background: #f6faf7;
+    }
+
+    .fruitai-home .category-label {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 7px 13px;
+        border: 1px solid #ccebd7;
+        border-radius: 25px;
+        background: var(--light);
+        color: var(--green);
+        font-size: .82rem;
+        font-weight: 700;
+    }
+
+    .fruitai-home .cta {
+        padding: clamp(25px, 5vw, 45px);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: linear-gradient(120deg, #eff9f2, #ffffff);
+        text-align: center;
+    }
+
+    .fruitai-home .cta p {
+        max-width: 580px;
+        margin: 12px auto 24px;
+        color: var(--muted);
+        line-height: 1.7;
+    }
+
+    /* Tablet and mobile */
+    @media (max-width: 767.98px) {
+        .fruitai-home .hero {
+            padding: 28px 0;
+        }
+
+        .fruitai-home .hero-card {
+            border-radius: 18px;
+        }
+
+        .fruitai-home .hero-info {
+            min-height: auto;
+        }
+
+        .fruitai-home .section-space {
+            padding: 38px 0;
+        }
+
+        .fruitai-home .info-card {
+            padding: 21px;
+        }
+
+        .fruitai-home .primary-btn,
+        .fruitai-home .secondary-btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .fruitai-home h1 {
+            font-size: 1.9rem;
+        }
+
+        .fruitai-home .hero-card {
+            padding: 18px;
+        }
+
+        .fruitai-home .info-card {
+            padding: 17px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .fruitai-home *,
+        .fruitai-home *::before,
+        .fruitai-home *::after {
+            transition: none !important;
+            animation: none !important;
+            scroll-behavior: auto !important;
+        }
+    }
+</style>
+
+<div class="fruitai-home">
+
+    <!-- Hero section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-card">
+                <div class="row align-items-center g-4">
+
+                    <div class="col-lg-7">
+                        <span class="tag">AI-POWERED INSPECTION</span>
+
+                        <h1>
+                            Fruit Quality
+                            <span>&amp; Freshness Detection</span>
+                        </h1>
+
+                        <p class="description">
+                            Check fruit freshness using an AI-powered application.
+                            Upload an image to view the predicted fruit type,
+                            freshness condition, and confidence score.
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-3 mt-4">
+                            <a href="/predict" class="primary-btn">
+                                <i class="fas fa-camera" aria-hidden="true"></i>
+                                Start Prediction
+                            </a>
+
+                            <a href="#how-it-works" class="secondary-btn">
+                                <i class="fas fa-arrow-down" aria-hidden="true"></i>
+                                How It Works
+                            </a>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-3 mt-4 small">
+                            <span>
+                                <i class="fas fa-check-circle text-success" aria-hidden="true"></i>
+                                Easy to use
+                            </span>
+                            <span>
+                                <i class="fas fa-image text-success" aria-hidden="true"></i>
+                                Image-based analysis
+                            </span>
+                            <span>
+                                <i class="fas fa-chart-bar text-success" aria-hidden="true"></i>
+                                Prediction results
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="hero-info">
+                            <h2>Freshness at a Glance</h2>
+                            <p>
+                                Upload an image, let the model analyze it,
+                                and review the predicted result.
+                            </p>
+
+                            <div class="status-list">
+                                <span class="status status-fresh">Fresh</span>
+                                <span class="status status-ripe">Ripe</span>
+                                <span class="status status-rotten">Rotten</span>
+                            </div>
+
+                            <hr>
+
+                            <p class="mb-0 small">
+                                <i class="fas fa-shield-alt text-success" aria-hidden="true"></i>
+                                Simple, clear, and responsive interface
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section-space" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-description">
+                Three simple steps to check fruit quality.
+            </p>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-4">
+                    <article class="info-card">
+                        <div class="card-number">01</div>
+                        <h3>Upload an Image</h3>
+                        <p>
+                            Choose a clear image of the fruit you want to inspect.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <article class="info-card">
+                        <div class="card-number">02</div>
+                        <h3>AI Analysis</h3>
+                        <p>
+                            The application processes the image and predicts
+                            the fruit's condition.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <article class="info-card">
+                        <div class="card-number">03</div>
+                        <h3>View the Result</h3>
+                        <p>
+                            Review the predicted category and confidence score
+                            provided by the model.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section-space pt-0">
+        <div class="container">
+            <h2 class="section-title">Useful Features</h2>
+            <p class="section-description">
+                Helpful tools for checking fruit freshness with less effort.
+            </p>
+
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <article class="info-card">
+                        <div class="card-number">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </div>
+                        <h3>Freshness Detection</h3>
+                        <p>
+                            Predicts whether a supported fruit is fresh or rotten.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <article class="info-card">
+                        <div class="card-number">
+                            <i class="fas fa-layer-group" aria-hidden="true"></i>
+                        </div>
+                        <h3>Fruit Recognition</h3>
+                        <p>
+                            Identifies fruit categories supported by the trained model.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <article class="info-card">
+                        <div class="card-number">
+                            <i class="fas fa-chart-pie" aria-hidden="true"></i>
+                        </div>
+                        <h3>Confidence Score</h3>
+                        <p>
+                            Shows the model's confidence when provided in the result.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <article class="info-card">
+                        <div class="card-number">
+                            <i class="fas fa-laptop" aria-hidden="true"></i>
+                        </div>
+                        <h3>Responsive Design</h3>
+                        <p>
+                            Adjusts the layout to different screen sizes.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported categories: text only, no fruit images or emojis -->
+    <section class="section-space categories">
+        <div class="container">
+            <h2 class="section-title">Supported Fruit Categories</h2>
+            <p class="section-description">
+                The current interface lists three fruit categories.
+                Actual results depend on your model configuration.
+            </p>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <article class="info-card text-center">
+                        <h3>Apples</h3>
+                        <p>Check the predicted condition of apple images.</p>
+                        <span class="category-label">Fresh / Rotten</span>
+                    </article>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <article class="info-card text-center">
+                        <h3>Bananas</h3>
+                        <p>Review the predicted condition of banana images.</p>
+                        <span class="category-label">Fresh / Rotten</span>
+                    </article>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <article class="info-card text-center">
+                        <h3>Oranges</h3>
+                        <p>Check the predicted condition of orange images.</p>
+                        <span class="category-label">Fresh / Rotten</span>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to action -->
+    <section class="section-space">
+        <div class="container">
+            <div class="cta">
+                <span class="tag">FRUITAI</span>
+                <h2 class="section-title mt-3">
+                    Ready to Check Fruit Freshness?
+                </h2>
+                <p>
+                    Start by uploading an image and reviewing the prediction.
+                </p>
+
+                <a href="/predict" class="primary-btn">
+                    <i class="fas fa-camera" aria-hidden="true"></i>
+                    Start Prediction
+                </a>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
